@@ -1,16 +1,18 @@
 <?php
 
-if (isset($_POST) && isset($_FILES) && isset($_FILES['testfile'])) {
-    $file_name = $_FILES['testfile']['name'];
-    $tmp_file = $_FILES['testfile']['tmp_name'];
-    $uploads_dir = 'db_tests/';
-    $path_info = pathinfo($uploads_dir . $file_name);
-        if ($path_info['extension'] === 'json') {
-            move_uploaded_file($tmp_file, $uploads_dir . $file_name);
-            echo 'Тест загружен';
-        } else {
-            echo 'Необходим файл с расширением .json';
-            }
+// Если был получен POST-запрос с файлом, то проверяем, подходит ли он
+if (isset($_POST['upload'])) {
+    // Определяем массив со всеми файлами из папки с тестами
+    if (!empty(glob('db_tests/*.json'))) {
+        $allFiles = glob('db_tests/*.json');
+    } else {
+        $allFiles = [0];
+    }
+    
+
+// Определяем загружаемый файл
+    $uploadfile = 'db_tests/' . basename($_FILES['testfile']['name']);
+   
 }
 
 ?>
@@ -22,16 +24,42 @@ if (isset($_POST) && isset($_FILES) && isset($_FILES['testfile'])) {
     <title>Тест</title>
 </head>
 <body>
+<!-- Если файл был отправлен, то выводить информацию о файле и уведомление об успешной загрузке/ошибке -->
 
+<?php if (isset($_POST['upload'])): ?>
+    <a href="<?php $_SERVER['HTTP_REFERER'] ?>"><div>< Назад</div></a>
+    <?php echo $result; ?>
+    <h1>Служебная информация:</h1>
+    
+    <pre>
+        <?php print_r($allFiles); ?>
+        <hr>
+        <?php print_r($_FILES); ?>
+    </pre>
+
+<?php endif; ?>
+
+<!-- Пока файл или форма теста не была отправлена, выводить форму загрузки и форму создания теста -->
+
+<?php if (!isset($_POST['create']) && !isset($_POST['upload'])): ?>
+
+    <form method="POST" enctype="multipart/form-data">
+        <fieldset>
+            <legend>Загрузите свой тест в формате json</legend>
+            <input type="file" name="testfile" id="uploadfile" required>
+            <input type="submit" value="Добавить в базу" id="submit-upload" name="upload">
+        </fieldset>
+    </form>
+
+    <div class="all-tests">
+        <fieldset>
+            <a href="list.php">Посмотреть все тесты >></a>
+        </fieldset>
+    </div>
+
+<?php endif; ?>
     
     
-    <form enctype="multipart/form-data" action="test.php" method="post">
-<input type="hidden" name="MAX_FILE_SIZE" value="30000">
-<input name="userfile" type="file">
-<input type="submit" value="Send File">
-</form>
-
-
-
+   
 </body>
 </html>
