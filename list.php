@@ -1,6 +1,6 @@
 <?php
 
-$file_list = glob('db_tests/*.json');
+$allFiles = glob('db_tests/*.json');
 
 ?>
 
@@ -12,21 +12,21 @@ $file_list = glob('db_tests/*.json');
 </head>
 <body>
 
-    <?php
-        foreach ($file_list as $key => $file) {
-            $file_test = file_get_contents($file);
-            $decode_file = json_decode($file_test, true);
-            foreach ($decode_file as $test) {
-                $question = $test['question'];
-                echo "<a href=\"test.php?test=$key\">$question</a><br>";
-            }
-        }
-    ?>
+    <!-- Цикл, который выводит список всех загруженных файлов -->
+    <?php if (!empty($allFiles)): ?>
+        <?php foreach ($allFiles as $file): ?>
 
-    <ul>
-        <li><a href="admin.php">Загрузить тест</a></li>
-        
-    </ul>
+            <div class="file-block">
+                <h1><?php echo str_replace('db_tests/', '', $file); ?></h1><br>
+                <em>Загружен: <?php echo date("d-m-Y H:i", filemtime($file)) ?></em><br>
+                <a href="test.php?number=<?php echo array_search($file, $allFiles); ?>">Перейти на страницу с тестом ></a>
+            </div>
+            <hr>
+
+        <?php endforeach; ?>
+    <?php endif; ?>
+    <?php if (empty($allFiles)) echo 'Пока не загружено ни одного теста';?>
+    
 
 </body>
 </html>
