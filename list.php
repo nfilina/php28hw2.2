@@ -1,7 +1,5 @@
 <?php
-
 $allFiles = glob('db_tests/*.json');
-
 ?>
 
 <!doctype html>
@@ -11,6 +9,9 @@ $allFiles = glob('db_tests/*.json');
     <title>Список тестов</title>
 </head>
 <body>
+
+    <a href="admin.php" class="back"><span><b>Назад</b> >>></span></a>
+    <hr>
 
     <!-- Цикл, который выводит список всех загруженных файлов -->
     <?php if (!empty($allFiles)): ?>
