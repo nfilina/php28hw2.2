@@ -64,7 +64,7 @@ if (isset($_POST['check-test'])) {
         <legend><?php echo $item['question'] ?></legend>
         <?php foreach($item['answers'] as $keys => $itemM): ?>           
 
-            <label><input type="radio" name="answer<?php echo $key ?>" value="<?php echo $keys ?>"><?php echo $itemM ?></label><br>
+            <label><input type="radio" name="answer<?php echo $key ?>" value="<?php echo $keys ?>"><?php echo $itemM ?></label>
            
         <?php endforeach; ?>
 
