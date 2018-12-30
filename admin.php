@@ -9,7 +9,6 @@ if (isset($_POST['upload'])) {
         $allFiles = [0];
     }
     
-
 // Определяем загружаемый файл
     $uploadfile = 'db_tests/' . basename($_FILES['testfile']['name']);
    
@@ -24,20 +23,14 @@ if (isset($_POST['upload'])) {
     <title>Тест</title>
 </head>
 <body>
+
 <!-- Если файл был отправлен, то выводить информацию о файле и уведомление об успешной загрузке/ошибке -->
 
 <?php if (isset($_POST['upload'])): ?>
-    <a href="<?php $_SERVER['HTTP_REFERER'] ?>"><div>< Назад</div></a>
-    <?php echo $result; ?>
-    <h1>Служебная информация:</h1>
-    
-    <pre>
-        <?php print_r($allFiles); ?>
-        <hr>
-        <?php print_r($_FILES); ?>
-    </pre>
-
+    <a href="<?php $_SERVER['HTTP_REFERER'] ?>"><div><<< Назад</div></a>
+       
 <?php endif; ?>
+
 
 <!-- Пока файл или форма теста не была отправлена, выводить форму загрузки и форму создания теста -->
 
@@ -49,7 +42,7 @@ if (isset($_POST['upload'])) {
             <input type="file" name="testfile" id="uploadfile" required>
             <input type="submit" value="Добавить в базу" id="submit-upload" name="upload">
         </fieldset>
-    </form>
+    </form><br>
 
     <div class="all-tests">
         <fieldset>
@@ -58,8 +51,7 @@ if (isset($_POST['upload'])) {
     </div>
 
 <?php endif; ?>
-    
-    
+       
    
 </body>
 </html>
